@@ -78,6 +78,7 @@
             },
             "kind": "linux"
         },
+        
         {
             "apiVersion": "2014-04-01",
             "name": "[parameters('appInsightsName')]",
