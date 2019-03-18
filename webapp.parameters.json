@@ -10,6 +10,9 @@
     },
     "administratorLoginPassword": {
       "value": "Testing123!"
-    }
+    },
+    "appInsightsName": {
+      "value": "testingwebapp02AppInsights"
+}
   }
 }
