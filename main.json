@@ -11,11 +11,11 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "https://raw.githubusercontent.com/testingVerhaegheO/testingarmdepoy/master/mysqlserver.json",
+                    "uri": "https://raw.githubusercontent.com/testingVerhaegheO/webapp-sqlserver-appInsights/master/mysqlserver.json",
                     "contentVersion": "1.0.0.0"
                 },
                 "parametersLink": {
-                    "uri": "https://raw.githubusercontent.com/testingVerhaegheO/testingarmdepoy/master/mysqlserver.parameters.json",
+                    "uri": "https://raw.githubusercontent.com/testingVerhaegheO/webapp-sqlserver-appInsights/master/mysqlserver.parameters.json",
                     "contentVersion": "1.0.0.0"
                 }
             }
@@ -30,11 +30,11 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "https://raw.githubusercontent.com/testingVerhaegheO/testingarmdepoy/master/webapp.json",
+                    "uri": "https://raw.githubusercontent.com/testingVerhaegheO/webapp-sqlserver-appInsights/master/webapp.json",
                     "contentVersion": "1.0.0.0"
                 },
                 "parametersLink": {
-                    "uri": "https://raw.githubusercontent.com/testingVerhaegheO/testingarmdepoy/master/webapp.parameters.json",
+                    "uri": "https://raw.githubusercontent.com/testingVerhaegheO/webapp-sqlserver-appInsights/master/webapp.parameters.json",
                     "contentVersion": "1.0.0.0"
                 }
             }
