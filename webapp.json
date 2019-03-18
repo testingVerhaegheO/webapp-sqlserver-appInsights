@@ -50,10 +50,16 @@
                     "linuxFxVersion": "php|7.0",
                     "connectionStrings": [
                         {
-                            "name": "defaultConnection",
+                            "name": "sqlServerConnection",
                             "ConnectionString": "[concat('Database=', variables('databaseName'), ';Data Source=', variables('serverName'), '.mysql.database.azure.com',';User Id=',parameters('administratorLogin'),'@',variables('serverName') ,';Password=',parameters('administratorLoginPassword'))]",
                             "type": "MySql"
                         }
+                    ],
+                    "appSettings": [
+                        {
+                            "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                            "value": "[reference(concat('microsoft.insights/components/', parameters('appInsightsName'))).InstrumentationKey]"
+                        } 
                     ]
                 },
                 "name": "[parameters('siteName')]",
@@ -63,7 +69,8 @@
             "apiVersion": "2016-08-01",
             "location": "[parameters('location')]",
             "dependsOn": [
-                "[variables('hostingPlanName')]"
+                "[variables('hostingPlanName')]",
+                "[parameters('appInsightsName')]"
             ]
         },
         {
@@ -95,10 +102,7 @@
             },
             "properties": {
                 "applicationId": "[parameters('appInsightsName')]"
-            },
-            "dependsOn": [
-                "[variables('siteName')]"
-            ]
+            }
         }
     ]
 }
