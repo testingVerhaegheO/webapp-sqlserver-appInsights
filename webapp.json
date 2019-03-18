@@ -28,6 +28,12 @@
             "metadata": {
                 "description": "Database administrator password"
             }
+        },
+        "appInsightsName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of azure app insights"
+            }
         }
     },
     "variables": {
@@ -89,7 +95,10 @@
             },
             "properties": {
                 "applicationId": "[parameters('appInsightsName')]"
-            }
+            },
+            "dependsOn": [
+                "[variables('siteName')]"
+            ]
         }
     ]
 }
