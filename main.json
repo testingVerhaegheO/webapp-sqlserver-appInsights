@@ -61,7 +61,7 @@
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', 'mysqlserver')]",
                 "[resourceId('Microsoft.Resources/deployments', 'appinsights')]",
-                "[resourceId('Microsoft.Resources/deployments', 'appserverplan')]"
+                "[resourceId('Microsoft.Resources/deployments', 'appserviceplan')]"
             ],
             "properties": {
                 "mode": "Incremental",
