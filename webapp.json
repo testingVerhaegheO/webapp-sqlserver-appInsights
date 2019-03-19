@@ -47,47 +47,27 @@
             "name": "[parameters('siteName')]",
             "properties": {
                 "siteConfig": {
-                    "linuxFxVersion": "php|7.0"
+                    "linuxFxVersion": "php|7.0",
+                    "connectionStrings": [
+                        {
+                            "name": "sqlServerConnection",
+                            "ConnectionString": "[concat('Database=', variables('databaseName'), ';Data Source=', variables('serverName'), '.mysql.database.azure.com',';User Id=',parameters('administratorLogin'),'@',variables('serverName') ,';Password=',parameters('administratorLoginPassword'))]",
+                            "type": "MySql"
+                        }
+                    ],
+                    "appSettings": [
+                        {
+                            "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                            "value": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName')), '2014-04-01').InstrumentationKey]"
+                        } 
+                    ]
                 },
                 "name": "[parameters('siteName')]",
                 "serverFarmId": "[variables('hostingPlanName')]",
                 "hostingEnvironment": ""
             },
-            "resources": [
-                {
-                  "name": "connectionStrings",
-                  "type": "config",
-                  "apiVersion": "2015-08-01",
-                  "dependsOn": [],
-                  "tags": {
-                      
-                  },
-                  "location": "[resourceGroup().location]",
-                  "properties": {
-                    "ConnectionString": {
-                        "value": "[concat('Database=', variables('databaseName'), ';Data Source=', variables('serverName'), '.mysql.database.azure.com',';User Id=',parameters('administratorLogin'),'@',variables('serverName') ,';Password=',parameters('administratorLoginPassword'))]",
-                        "type": "string"
-                      }
-                  }
-                },
-                {
-                  "name": "appsettings",
-                    "type": "config",
-                    "apiVersion": "2015-08-01",
-                    "dependsOn": [],
-                    "tags": {
-                        "description": "connect"
-                    },
-                    "location": "[resourceGroup().location]",
-                    "properties": {
-                      "ASPNETCORE_ENVIRONMENT": "[parameters('environment')]",
-                      "Logging:ApplicationInsights:InstrumentationKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName')), '2014-04-01').InstrumentationKey]"
-                    }
-                }
-              ],
             "apiVersion": "2016-08-01",
             "location": "[parameters('location')]",
-            "kind": "api",
             "dependsOn": []
         }
     ]
