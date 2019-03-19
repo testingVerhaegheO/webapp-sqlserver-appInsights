@@ -2,13 +2,25 @@
     "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
     "contentVersion": "1.0.0.0",
     "parameters": {
+        "siteName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of azure web app"
+            }
+        },
         "location": {
             "type": "string",
             "defaultValue": "[resourceGroup().location]",
             "metadata": {
                 "description": "Location for all resources."
             }
-    }
+        },
+        "appInsightsName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of azure app insights"
+            }
+        }
     },
     "variables": {
         "databaseName": "[concat(parameters('siteName'), 'database')]",

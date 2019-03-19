@@ -5,12 +5,6 @@
     "siteName": {
       "value": "testingwebapp02"
     },
-    "administratorLogin": {
-      "value": "olivieradmin"
-    },
-    "administratorLoginPassword": {
-      "value": "Testing123!"
-    },
     "appInsightsName": {
       "value": "testingwebapp02AppInsights"
 }
