@@ -22,7 +22,7 @@
         },
         {
             "apiVersion": "2017-05-10",
-            "name": "appserverplan",
+            "name": "appserviceplan",
             "type": "Microsoft.Resources/deployments",
             "dependsOn": [],
             "properties": {
