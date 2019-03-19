@@ -57,7 +57,7 @@
                     ],
                     "appSettings": [
                         {
-                            "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                            "name": "Logging:ApplicationInsights:InstrumentationKey",
                             "value": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName')), '2014-04-01').InstrumentationKey]"
                         } 
                     ]
