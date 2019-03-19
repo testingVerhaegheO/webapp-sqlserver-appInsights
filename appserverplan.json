@@ -36,7 +36,7 @@
                 },
                 "sku": {
                     "Tier": "Basic",
-                    "Name": "S1"
+                    "Name": "B1"
                 },
                 "kind": "linux"
         } 
