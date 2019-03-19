@@ -54,10 +54,7 @@
             },
             "apiVersion": "2016-08-01",
             "location": "[parameters('location')]",
-            "dependsOn": [
-                "[variables('hostingPlanName')]",
-                "[parameters('appInsightsName')]"
-            ]
+            "dependsOn": []
         }
     ]
 }
