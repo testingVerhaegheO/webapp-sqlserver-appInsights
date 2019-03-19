@@ -15,6 +15,20 @@
                     "description": "Location for all resources."
                 }
         },
+        "administratorLogin": {
+            "type": "string",
+            "minLength": 1,
+            "metadata": {
+                "description": "Database administrator login name"
+            }
+        },
+        "administratorLoginPassword": {
+            "type": "securestring",
+            "minLength": 2,
+            "metadata": {
+                "description": "Database administrator password"
+            }
+        },
         "appInsightsName": {
             "type": "string",
             "metadata": {
@@ -44,7 +58,7 @@
                     "appSettings": [
                         {
                             "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-                            "value": "[reference(concat('microsoft.insights/components/', parameters('appInsightsName'))).InstrumentationKey]"
+                            "value": "[reference(resourceId('Microsoft.Insights/components', parameters('aiName')), '2014-04-01').InstrumentationKey]"
                         } 
                     ]
                 },

@@ -30,7 +30,8 @@
             "type": "Microsoft.Insights/components",
             "location": "[parameters('location')]",
             "tags": {
-                
+                "[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/', parameters('siteName'))]": "Resource",
+                "displayName": "AppInsightsComponent"
             },
             "properties": {
                 "applicationId": "[parameters('appInsightsName')]"
