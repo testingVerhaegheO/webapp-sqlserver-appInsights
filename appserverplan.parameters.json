@@ -4,9 +4,6 @@
   "parameters": {   
     "siteName": {
       "value": "testingwebapp02"
-    },
-    "appInsightsName": {
-      "value": "testingwebapp02AppInsights"
-}
+    }
   }
 }

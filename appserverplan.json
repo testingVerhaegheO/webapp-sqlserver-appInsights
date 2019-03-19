@@ -14,12 +14,6 @@
             "metadata": {
                 "description": "Location for all resources."
             }
-        },
-        "appInsightsName": {
-            "type": "string",
-            "metadata": {
-                "description": "Name of azure app insights"
-            }
         }
     },
     "variables": {
