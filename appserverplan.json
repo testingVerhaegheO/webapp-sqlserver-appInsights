@@ -35,7 +35,7 @@
                     "hostingEnvironment": ""
                 },
                 "sku": {
-                    "Tier": "Standard",
+                    "Tier": "Basic",
                     "Name": "S1"
                 },
                 "kind": "linux"
