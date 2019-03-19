@@ -15,20 +15,6 @@
                     "description": "Location for all resources."
                 }
         },
-        "administratorLogin": {
-            "type": "string",
-            "minLength": 1,
-            "metadata": {
-                "description": "Database administrator login name"
-            }
-        },
-        "administratorLoginPassword": {
-            "type": "securestring",
-            "minLength": 2,
-            "metadata": {
-                "description": "Database administrator password"
-            }
-        },
         "appInsightsName": {
             "type": "string",
             "metadata": {
@@ -72,37 +58,6 @@
                 "[variables('hostingPlanName')]",
                 "[parameters('appInsightsName')]"
             ]
-        },
-        {
-            "apiVersion": "2016-09-01",
-            "name": "[variables('hostingPlanName')]",
-            "type": "Microsoft.Web/serverfarms",
-            "location": "[parameters('location')]",
-            "properties": {
-                "name": "[variables('hostingPlanName')]",
-                "workerSizeId": "1",
-                "reserved": true,
-                "numberOfWorkers": "1",
-                "hostingEnvironment": ""
-            },
-            "sku": {
-                "Tier": "Standard",
-                "Name": "S1"
-            },
-            "kind": "linux"
-        },
-        {
-            "apiVersion": "2014-04-01",
-            "name": "[parameters('appInsightsName')]",
-            "type": "Microsoft.Insights/components",
-            "location": "[resourceGroup().location]",
-            "tags": {
-                "[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/', parameters('siteName'))]": "Resource",
-                "displayName": "AppInsightsComponent"
-            },
-            "properties": {
-                "applicationId": "[parameters('appInsightsName')]"
-            }
         }
     ]
 }
