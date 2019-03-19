@@ -1,0 +1,199 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "environment": {
+        "type": "string",
+        "metadata": {
+            "description": "Name of the environment. Will be used to load correct config files."
+        }
+      },
+      "aseServicePlanRg": {
+        "type": "string",
+        "metadata": {
+            "description": "Resource group of the App Service Plan"
+        }
+      },
+      "aseServicePlanName": {
+        "type": "string",
+        "metadata": {
+            "description": "Name of the App Service Plan"
+        }
+      },
+      "websiteName": {
+        "type": "string",
+        "metadata": {
+            "description": "Name of the App Service Plan"
+        }
+      },
+      "database_name": {
+        "type": "string",
+        "metadata": {
+            "description": "Name of the cosmos DB"
+        }
+      },
+      "aiName": {
+        "type": "string",
+        "metadata": {
+            "description": "Name of the application insights resource"
+        }
+      },
+      "priceCode": {
+        "type": "int",
+        "defaultValue": 1,
+        "allowedValues": [
+            1,
+            2
+        ],
+        "metadata": {
+            "description": "1 = Basic, 2 = Enterprise"
+        }
+      },
+      "sku":{
+        "type": "string",
+        "defaultValue" : "S1",
+        "metadata": {
+          "description": "The SKU of App Service Plan "
+        }
+      },
+      "webAppName":{
+        "type": "string",
+        "metadata": {
+          "description": "The Name of the Web App "
+        }
+      },
+      "dailyQuota": {
+        "type": "int",
+        "defaultValue": 100,
+        "minValue": 1,
+        "metadata": {
+            "description": "Enter daily quota in GB."
+        }
+      },
+      "eventhubendpointname":{
+        "type": "string"
+      },
+      "eventhubpolicyname":{
+        "type": "string"
+      },
+      "eventhubApiVersion":{
+        "type": "string"
+      }
+    },
+    "variables": {
+      "priceArray": [
+        "Basic",
+        "Application Insights Enterprise"
+      ],
+      "pricePlan": "[take(variables('priceArray'),parameters('priceCode'))]",
+      "billingplan": "[concat(parameters('aiName'),'/', variables('pricePlan')[0])]",
+      "dailyQuotaResetTime": 8,
+      "warningThreshold": 90,
+      "appServicePlanName": "[concat(parameters('webAppName'))]",
+      "connectionType": "custom"
+    },
+    "resources": [
+      {
+        "apiVersion": "2017-08-01",
+        "type": "Microsoft.Web/serverfarms",
+        "kind": "app",
+        "name": "[variables('appServicePlanName')]",
+        "location": "[resourceGroup().location]",
+        "comments": "This app service plan is used for the web app and slots.",
+        "properties": {},
+        "dependsOn": [],
+        "sku": {
+          "name": "[parameters('sku')]"
+        }
+      },
+      {
+        "apiVersion": "2016-03-01",
+        "name": "[parameters('websiteName')]",
+        "type": "Microsoft.Web/sites",
+        "dependsOn": [
+          "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]"
+        ],
+        "properties": {
+            "name": "[parameters('websiteName')]",
+            "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]",
+            "hostingEnvironment": "[variables('appServicePlanName')]",
+            "siteConfig": {
+              "AlwaysOn": true
+            }
+        },
+        "resources": [
+          {
+            "name": "connectionStrings",
+            "type": "config",
+            "apiVersion": "2015-08-01",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('websiteName'))]"
+            ],
+            "tags": {
+                
+            },
+            "location": "[resourceGroup().location]",
+            "properties": {
+            }
+          },
+          {
+            "name": "appsettings",
+              "type": "config",
+              "apiVersion": "2015-08-01",
+              "dependsOn": [
+                  "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]",
+                  "[resourceId('Microsoft.Insights/components', parameters('aiName'))]",
+                  "[resourceId('Microsoft.Web/sites', parameters('websiteName'))]"
+              ],
+              "tags": {
+              },
+              "location": "[resourceGroup().location]",
+              "properties": {
+                "ASPNETCORE_ENVIRONMENT": "[parameters('environment')]",
+                "Logging:ApplicationInsights:InstrumentationKey": "[reference(resourceId('Microsoft.Insights/components', parameters('aiName')), '2014-04-01').InstrumentationKey]"
+              }
+          }
+        ],
+        "tags": {
+          "description": "connect"
+        },
+        "location": "[resourcegroup().location]",
+        "kind": "api"
+      },
+      {
+        "name": "[parameters('aiName')]",
+        "type": "Microsoft.Insights/components",
+        "location": "[resourceGroup().location]",
+        "apiVersion": "2014-04-01",
+        "dependsOn": [
+          "[resourceId('Microsoft.Web/sites', parameters('websiteName'))]"
+        ],
+        "tags": {
+          "displayName": "Component AppInsights-API",
+          "description": "connect"
+        },
+        "properties": {
+          "applicationId": "[resourceId('Microsoft.Web/sites', parameters('websiteName'))]"
+        }
+      },
+      {
+        "name": "[variables('billingplan')]",
+        "type": "microsoft.insights/components/CurrentBillingFeatures",
+        "location": "[[resourceGroup().location]]",
+        "apiVersion": "2015-05-01",
+        "dependsOn": [
+            "[resourceId('microsoft.insights/components', parameters('aiName'))]"
+        ],
+        "properties": {
+            "CurrentBillingFeatures": "[variables('pricePlan')]",
+            "DataVolumeCap": {
+                "Cap": "[parameters('dailyQuota')]",
+                "WarningThreshold": "[variables('warningThreshold')]",
+                "ResetTime": "[variables('dailyQuotaResetTime')]"
+            }
+        }
+    }
+    ],
+    "outputs": {
+    }
+}
