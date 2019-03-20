@@ -140,7 +140,7 @@
             "name": "Microsoft.ApplicationInsights.AzureWebSites",
             "type": "siteextensions",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/Sites', variables('webSiteName'))]"
+                "[resourceId('Microsoft.Web/Sites', variables('siteName'))]"
             ],
             "properties": {}
         }
