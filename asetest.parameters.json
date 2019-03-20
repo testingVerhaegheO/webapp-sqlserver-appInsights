@@ -1,0 +1,24 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "aseName": {
+            "value": "testingunique"
+        },
+        "existingVirtualNetworkName": {
+            "value": "testingverhaegheo02"
+        },
+        "existingVirtualNetworkResourceGroup": {
+            "value": "testingverhaegheo02"
+        },
+        "subnetName": {
+            "value": "default"
+        },
+        "internalLoadBalancingMode": {
+            "value": 3
+        },
+        "dnsSuffix": {
+            "value": "p.azurewebsites.net"
+        }
+    }
+}
