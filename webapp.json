@@ -8,6 +8,20 @@
                 "description": "Name of azure web app"
             }
         },
+        "administratorLogin": {
+            "type": "string",
+            "minLength": 1,
+            "metadata": {
+                "description": "Database administrator login name"
+            }
+        },
+        "administratorLoginPassword": {
+            "type": "securestring",
+            "minLength": 2,
+            "metadata": {
+                "description": "Database administrator password"
+            }
+        },
         "skuName": {
             "type": "string",
             "defaultValue": "F1",
