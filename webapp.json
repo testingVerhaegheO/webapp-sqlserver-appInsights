@@ -100,7 +100,7 @@
                     "location": "[resourceGroup().location]",
                     "properties": {
                       "cosmosConnection": {
-                        "value": "[listKeys(resourceId('Microsoft.DocumentDb/databaseAccounts', variables('databaseName')), '2016-03-31').primaryMasterKey]",
+                        "value": "[listKeys(resourceId('Microsoft.DocumentDb/databaseAccounts', variables('serverName')), '2016-03-31').primaryMasterKey]",
                         "type": "[variables('connectionType')]"
                       }
                     }
