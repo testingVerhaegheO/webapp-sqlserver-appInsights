@@ -22,46 +22,10 @@
         },
         {
             "apiVersion": "2017-05-10",
-            "name": "appserviceplan",
-            "type": "Microsoft.Resources/deployments",
-            "dependsOn": [],
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "https://raw.githubusercontent.com/testingVerhaegheO/webapp-sqlserver-appInsights/master/appserverplan.json",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parametersLink": {
-                    "uri": "https://raw.githubusercontent.com/testingVerhaegheO/webapp-sqlserver-appInsights/master/appserverplan.parameters.json",
-                    "contentVersion": "1.0.0.0"
-                }
-            }
-        },
-        {
-            "apiVersion": "2017-05-10",
-            "name": "appinsights",
-            "type": "Microsoft.Resources/deployments",
-            "dependsOn": [],
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "https://raw.githubusercontent.com/testingVerhaegheO/webapp-sqlserver-appInsights/master/appinsights.json",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parametersLink": {
-                    "uri": "https://raw.githubusercontent.com/testingVerhaegheO/webapp-sqlserver-appInsights/master/appinsights.parameters.json",
-                    "contentVersion": "1.0.0.0"
-                }
-            }
-        },
-        {
-            "apiVersion": "2017-05-10",
             "name": "webapp",
             "type": "Microsoft.Resources/deployments",
             "dependsOn": [
-                "[resourceId('Microsoft.Resources/deployments', 'mysqlserver')]",
-                "[resourceId('Microsoft.Resources/deployments', 'appinsights')]",
-                "[resourceId('Microsoft.Resources/deployments', 'appserviceplan')]"
+                "[resourceId('Microsoft.Resources/deployments', 'mysqlserver')]"
             ],
             "properties": {
                 "mode": "Incremental",

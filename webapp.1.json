@@ -1,0 +1,103 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "siteName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of azure web app"
+            }
+        },
+            "location": {
+                "type": "string",
+                "defaultValue": "[resourceGroup().location]",
+                "metadata": {
+                    "description": "Location for all resources."
+                }
+        },
+        "administratorLogin": {
+            "type": "string",
+            "minLength": 1,
+            "metadata": {
+                "description": "Database administrator login name"
+            }
+        },
+        "administratorLoginPassword": {
+            "type": "securestring",
+            "minLength": 2,
+            "metadata": {
+                "description": "Database administrator password"
+            }
+        },
+        "appInsightsName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of azure app insights"
+            }
+        }
+    },
+    "variables": {
+        "databaseName": "[concat(parameters('siteName'), 'database')]",
+        "serverName": "[concat(parameters('siteName'), 'mysqlserver')]",
+        "hostingPlanName": "[concat(parameters('siteName'), 'serviceplan')]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Web/sites",
+            "name": "[parameters('siteName')]",
+            "properties": {
+                "siteConfig": {
+                    "linuxFxVersion": "php|7.0",
+                    "connectionStrings": [
+                        {
+                            "name": "sqlServerConnection",
+                            "ConnectionString": "[concat('Database=', variables('databaseName'), ';Data Source=', variables('serverName'), '.mysql.database.azure.com',';User Id=',parameters('administratorLogin'),'@',variables('serverName') ,';Password=',parameters('administratorLoginPassword'))]",
+                            "type": "MySql"
+                        }
+                    ],
+                    "appSettings": [
+                        {
+                            "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                            "value": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName')), '2014-04-01').InstrumentationKey]"
+                        } 
+                    ]
+                },
+                "name": "[parameters('siteName')]",
+                "serverFarmId": "[variables('hostingPlanName')]",
+                "hostingEnvironment": ""
+            },
+            "apiVersion": "2016-08-01",
+            "location": "[parameters('location')]",
+            "dependsOn": []
+        },
+        {
+            "apiVersion": "2015-08-01",
+            "name": "[concat(parameters('siteName'),'2')]",
+            "type": "Microsoft.Web/sites",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "[concat('hidden-related:', resourceGroup().id, '/providers/Microsoft.Web/serverfarms/', variables('hostingPlanName'))]": "Resource"                
+            },
+            "dependsOn": [
+                "[reference(resourceId('Microsoft.Web/serverfarms/', variables('hostingPlanName')))]"
+            ],
+            "properties": {
+                "serverFarmId": "[reference(resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]"
+            },
+            "resources": [
+                {
+                    "name": "appsettings",
+                    "type": "config",
+                    "apiVersion": "2015-08-01",
+                    "dependsOn": [
+                        "[reference(resourceId('Microsoft.Web/sites', parameters('siteName')))]",
+                        "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))]"
+                    ],
+                    "properties": {
+                        "APPINSIGHTS_INSTRUMENTATIONKEY": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName')), '2014-04-01').InstrumentationKey]"
+                    }
+                }
+            ]
+        }
+    ]
+}
