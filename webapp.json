@@ -111,7 +111,7 @@
                 "[resourceId('Microsoft.Web/sites/', parameters('siteName'))]"
             ],
             "tags": {
-                "[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/', variables('webSiteName'))]": "Resource"
+                "[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/', parameters('siteName'))]": "Resource"
             },
             "properties": {
                 "applicationId": "[parameters('siteName')]"
