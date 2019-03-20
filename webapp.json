@@ -77,6 +77,7 @@
             "name": "[parameters('siteName')]",
             "type": "Microsoft.Web/sites",
             "location": "[resourceGroup().location]",
+            "kind": "api",
             "tags": {
                 "[concat('hidden-related:', resourceGroup().id, '/providers/Microsoft.Web/serverfarms/', variables('hostingPlanName'))]": "Resource"                
             },
