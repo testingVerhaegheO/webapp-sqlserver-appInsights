@@ -79,10 +79,10 @@
                 "[concat('hidden-related:', resourceGroup().id, '/providers/Microsoft.Web/serverfarms/', variables('hostingPlanName'))]": "Resource"                
             },
             "dependsOn": [
-                "[resourceId('Microsoft.Web/serverfarms/', variables('hostingPlanName'))]"
+                "[reference(resourceId('Microsoft.Web/serverfarms/', variables('hostingPlanName')))]"
             ],
             "properties": {
-                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]"
+                "serverFarmId": "[reference(resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]"
             },
             "resources": [
                 {
@@ -90,8 +90,8 @@
                     "type": "config",
                     "apiVersion": "2015-08-01",
                     "dependsOn": [
-                        "[resourceId('Microsoft.Web/sites', parameters('siteName'))]",
-                        "[resourceId('Microsoft.Insights/components', parameters('appInsightsName'))]"
+                        "[reference(resourceId('Microsoft.Web/sites', parameters('siteName')))]",
+                        "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))]"
                     ],
                     "properties": {
                         "APPINSIGHTS_INSTRUMENTATIONKEY": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName')), '2014-04-01').InstrumentationKey]"
