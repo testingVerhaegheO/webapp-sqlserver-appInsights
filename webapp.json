@@ -88,6 +88,24 @@
             },
             "resources": [
                 {
+                    "name": "connectionstrings",
+                    "type": "config",
+                    "apiVersion": "2015-08-01",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Web/sites', parameters('siteName'))]"
+                    ],
+                    "tags": {
+                        
+                    },
+                    "location": "[resourceGroup().location]",
+                    "properties": {
+                      "cosmosConnection": {
+                        "value": "[listKeys(resourceId('Microsoft.DocumentDb/databaseAccounts', variables('databaseName')), '2016-03-31').primaryMasterKey]",
+                        "type": "[variables('connectionType')]"
+                      }
+                    }
+                  },
+                {
                     "name": "appsettings",
                     "type": "config",
                     "apiVersion": "2015-08-01",
