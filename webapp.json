@@ -116,6 +116,15 @@
             "properties": {
                 "applicationId": "[parameters('siteName')]"
             }
+        },
+        {
+            "apiVersion": "2015-08-01",
+            "name": "Microsoft.ApplicationInsights.AzureWebSites",
+            "type": "siteextensions",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/Sites', variables('webSiteName'))]"
+            ],
+            "properties": {}
         }
     ]
 }
